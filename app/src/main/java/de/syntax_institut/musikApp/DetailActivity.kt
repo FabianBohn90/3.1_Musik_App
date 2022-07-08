@@ -1,4 +1,4 @@
-package de.syntax_institut.musikApp
+package de.syntax_institut.musikApp // ktlint-disable package-name
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,34 +19,80 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this,R.layout.detail_activity)
+        binding = DataBindingUtil.setContentView(this, R.layout.detail_activity)
+
+        // Die Informationen werden aus dem intent Objekt geholt
+        // TODO Schreibe hier deinen Code
+        val stringId = intent.extras?.getInt("stringId")
+        val imageId = intent.extras?.getInt("imageId")
 
         // Die Informationen werden aus dem intent Objekt geholt
         // TODO Schreibe hier deinen Code
 
-        // Die Informationen werden aus dem intent Objekt geholt
-        // TODO Schreibe hier deinen Code
+        var detailText = ""
 
         // Die Informationen werden zugewiesen (nach Test auf null)
         // TODO Schreibe hier deinen Code
 
+        if (stringId != null) {
+            detailText = getString(stringId)
+            binding.tvTitleDetail.text = detailText
+        }
+
+        if (imageId != null) {
+            binding.ivCoverDetail.setImageResource(imageId)
+        }
+
         // onClickListener für den Share button
         binding.btnShare.setOnClickListener {
-
             // Erstellt einen Intent mit der Absicht etwas zu Teilen
             // TODO Schreibe hier deinen Code
+            val intent = Intent(Intent.ACTION_SEND)
 
             // Füge einen Text hinzu
             // TODO Schreibe hier deinen Code
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Höre dir den Song $detailText an !"
+            )
 
             // Gib dem Intent einen Typ
             // TODO Schreibe hier deinen Code
+            intent.type = "text/plain"
 
             // Erstelle die Auswahl
             // TODO Schreibe hier deinen Code
+            val shareIntent = Intent.createChooser(intent, null)
 
             // starte die Auswahl Activity
             // TODO Schreibe hier deinen Code
+            startActivity(shareIntent)
+        }
+
+        binding.ibNext.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+
+            if (imageId != null) {
+                intent.putExtra("imageId", imageId + 1)
+            }
+            if (stringId != null) {
+                intent.putExtra("stringId", stringId + 1)
+            }
+
+            this.startActivity(intent)
+        }
+
+        binding.ibPrevious.setOnClickListener {
+            val intent = Intent(this, DetailActivity::class.java)
+
+            if (imageId != null) {
+                intent.putExtra("imageId", imageId - 1)
+            }
+            if (stringId != null) {
+                intent.putExtra("stringId", stringId - 1)
+            }
+
+            this.startActivity(intent)
         }
     }
 }

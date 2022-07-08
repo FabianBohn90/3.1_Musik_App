@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import de.syntax_institut.musikApp.DetailActivity
 import de.syntax_institut.musikApp.R
 import de.syntax_institut.musikApp.data.model.Song
@@ -32,13 +31,13 @@ class ItemAdapter(
 
         // Verweis auf die CardView, damit die gesamte View klickbar ist
         // TODO Schreibe hier deinen Code
+        val cardView: MaterialCardView = itemView.findViewById(R.id.item_cardView)
     }
 
     /**
      * hier werden neue ViewHolder erstellt
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-
         // das itemLayout wird gebaut
         val itemLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item, parent, false)
@@ -60,6 +59,7 @@ class ItemAdapter(
         val length = holder.textViewLength
         val cover = holder.imageViewCover
         // TODO Schreibe hier deinen Code
+        val card = holder.cardView
 
         // Setze Attribute
         title.text = context.resources.getString(song.stringResource)
@@ -68,6 +68,14 @@ class ItemAdapter(
 
         // setze einen onClickListener für die CardView
         // TODO Schreibe hier deinen Code
+        card.setOnClickListener {
+            val intent = Intent(context, DetailActivity::class.java)
+
+            intent.putExtra("imageId", song.imageResource)
+            intent.putExtra("stringId", song.stringResource)
+
+            context.startActivity(intent)
+        }
     }
 
     /**

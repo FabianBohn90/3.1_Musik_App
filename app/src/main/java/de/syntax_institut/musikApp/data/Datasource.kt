@@ -19,11 +19,10 @@ class Datasource(private val context: Context) {
 
         // Befülle die Liste
         for (index in 1..numberOfSongs) {
-
             // Hole den Titel & Bild und generiere eine zufällige Songlänge
             val title = getSongTitle(index)
             val image = getCover()
-            fun rndNr(max: Int) = Random.nextInt(0,max)
+            fun rndNr(max: Int) = Random.nextInt(0, max)
             val length = "0${rndNr(10)}:${rndNr(6)}${rndNr(6)}"
 
             // Füge ein Song Objekt hinzu
@@ -48,6 +47,7 @@ class Datasource(private val context: Context) {
     }
 
     private var iPrevious = 0
+
     /**
      * Diese Funktion liefert ein zufälliges Bild aus der Bilderquelle
      */
